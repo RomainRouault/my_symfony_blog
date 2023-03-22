@@ -24,7 +24,24 @@ class Article
     private ?string $image = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $creationDate = null;
+    private \DateTimeInterface $creationDate;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $slug = null;
+
+    #[ORM\Column]
+    private ?bool $published = false;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $publishedDate = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $excerpt = null;
+
+    public function __construct()
+    {
+        $this->creationDate = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +92,54 @@ class Article
     public function setCreationDate(\DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function isPublished(): ?bool
+    {
+        return $this->published;
+    }
+
+    public function setPublished(bool $published): self
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    public function getPublishedDate(): ?\DateTimeInterface
+    {
+        return $this->publishedDate;
+    }
+
+    public function setPublishedDate(?\DateTimeInterface $publishedDate): self
+    {
+        $this->publishedDate = $publishedDate;
+
+        return $this;
+    }
+
+    public function getExcerpt(): ?string
+    {
+        return $this->excerpt;
+    }
+
+    public function setExcerpt(?string $excerpt): self
+    {
+        $this->excerpt = $excerpt;
 
         return $this;
     }
