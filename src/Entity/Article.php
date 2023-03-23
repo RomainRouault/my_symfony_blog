@@ -38,6 +38,10 @@ class Article
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $excerpt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
+
     public function __construct()
     {
         $this->creationDate = new \DateTimeImmutable();
@@ -140,6 +144,18 @@ class Article
     public function setExcerpt(?string $excerpt): self
     {
         $this->excerpt = $excerpt;
+
+        return $this;
+    }
+
+    public function getauthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setauthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
