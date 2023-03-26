@@ -30,7 +30,7 @@ class Article
     private ?string $slug = null;
 
     #[ORM\Column]
-    private ?bool $published = false;
+    private ?bool $published = true;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $publishedDate = null;
@@ -112,7 +112,7 @@ class Article
         return $this;
     }
 
-    public function isPublished(): ?bool
+    public function getPublished(): ?bool
     {
         return $this->published;
     }
