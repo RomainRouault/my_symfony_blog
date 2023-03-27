@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -29,7 +30,8 @@ class ArticleCrudController extends AbstractCrudController
         yield AssociationField::new('author');
         yield TextEditorField::new('content')
             ->onlyOnForms();
-        yield TextEditorField::new('excerpt');
+        yield TextareaField::new('excerpt')
+            ->setHelp('250 caractères au maximum');
         yield BooleanField::new('published');
         yield DateField::new('publishedDate')
             ->onlyWhenUpdating();

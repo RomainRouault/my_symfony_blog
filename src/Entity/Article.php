@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -35,6 +36,10 @@ class Article
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $publishedDate = null;
 
+    #[Assert\Length(
+        max: 250,
+        maxMessage: 'L\'extrait de l\'article ne peut pas excéder {{ limit }} caractères',
+    )]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $excerpt = null;
 
