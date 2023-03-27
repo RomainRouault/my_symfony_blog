@@ -23,17 +23,24 @@ class ArticleCrudController extends AbstractCrudController
     {
         yield IdField::new('id')
             ->onlyOnIndex();
-        yield TextField::new('name');
+        yield TextField::new('name')
+            ->setLabel('Titre');
         yield TextField::new('slug');
         yield DateField::new('creationDate')
+            ->setLabel('Date de création')
             ->onlyWhenUpdating();
-        yield AssociationField::new('author');
-        yield TextEditorField::new('content')
-            ->onlyOnForms();
+        yield AssociationField::new('author')
+            ->setLabel('Auteur');
         yield TextareaField::new('excerpt')
-            ->setHelp('250 caractères au maximum');
-        yield BooleanField::new('published');
+            ->setLabel('En tête de l\'article')
+            ->setHelp('En-tête (250 caractères au maximum) utilisé en tant que résumé de l\'article dans l\'index');
+        yield TextEditorField::new('content')
+            ->setLabel('Corps de l\'article')
+            ->onlyOnForms();
+        yield BooleanField::new('published')
+            ->setLabel('Publié');
         yield DateField::new('publishedDate')
+            ->setLabel('Date de publication')
             ->onlyWhenUpdating();
     }
 }
