@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Article;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -43,6 +44,26 @@ class ArticleCrudController extends AbstractCrudController
             ->setLabel('Publié');
         yield DateField::new('publishedDate')
             ->setLabel('Date de publication')
-            ->onlyWhenUpdating();
+            ->hideWhenCreating();
     }
+
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        $this->setPublishedDateOnPublication($entityInstance);
+        parent::updateEntity($entityManager, $entityInstance);
+    }
+
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        $this->setPublishedDateOnPublication($entityInstance);
+        parent::updateEntity($entityManager, $entityInstance);
+    }
+
+    private function setPublishedDateOnPublication($entityInstance)
+    {
+        if ($entityInstance->getPublished() && !($entityInstance->getPublishedDate())) {
+            $entityInstance->setPublishedDate(new \DateTimeImmutable());
+        }
+    }
+
 }
