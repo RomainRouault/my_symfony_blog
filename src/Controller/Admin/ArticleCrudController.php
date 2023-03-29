@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -25,7 +26,8 @@ class ArticleCrudController extends AbstractCrudController
             ->onlyOnIndex();
         yield TextField::new('name')
             ->setLabel('Titre');
-        yield TextField::new('slug');
+        yield SlugField::new('slug')
+            ->setTargetFieldName('name');
         yield DateField::new('creationDate')
             ->setLabel('Date de création')
             ->onlyWhenUpdating();
