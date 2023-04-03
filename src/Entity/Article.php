@@ -10,6 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
 {
+    public const UPLOAD_ASSETS_DIR = '/uploads/images/';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -159,9 +161,17 @@ class Article
     }
 
     public function setauthor(?User $author): self
-    {
+     {
         $this->author = $author;
 
         return $this;
+    }
+
+    public function getAvatarUrl(): ?string
+    {
+        if (!$this->image) {
+            return null;
+        }
+        return sprintf(self::UPLOAD_ASSETS_DIR . '%s', $this->image);
     }
 }

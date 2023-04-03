@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -34,9 +35,14 @@ class ArticleCrudController extends AbstractCrudController
             ->onlyWhenUpdating();
         yield AssociationField::new('author')
             ->setLabel('Auteur');
+        yield ImageField::new('image')
+            ->setBasePath(self::getEntityFqcn()::UPLOAD_ASSETS_DIR)
+            ->setUploadDir('public' . self::getEntityFqcn()::UPLOAD_ASSETS_DIR)
+            ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]');
         yield TextareaField::new('excerpt')
             ->setLabel('En tête de l\'article')
-            ->setHelp('En-tête (250 caractères au maximum) utilisé en tant que résumé de l\'article dans l\'index');
+            ->setHelp('En-tête (250 caractères au maximum) utilisé en tant que résumé de l\'article dans l\'index')
+            ->onlyOnForms();
         yield TextEditorField::new('content')
             ->setLabel('Corps de l\'article')
             ->onlyOnForms();
